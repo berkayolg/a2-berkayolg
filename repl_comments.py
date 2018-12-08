@@ -1,16 +1,29 @@
-inputL = list()
+from hashlib import sha256
 
+def create_hash(password):                      #Taken from https://bitbucket.org/damienjadeduff/hashing_example/raw/master/hash_password.py
+    pw_bytestring = password.encode()
+    return sha256(pw_bytestring).hexdigest()
+
+inputL = list()
 comment = ""
 len = 0
+passwordHash = create_hash("GoodPassword")
+inputL.append(comment)
+falsePass = False
 while comment != "quit":
-    inputL.append(comment)
-    if comment != "":
+    if falsePass is False and comment != "":
         print("Previously entered comments: ")
     for i in range(1, len+1):
-        if comment != "":
-            print("1. ", inputL[i])
+        print(i, ". ", inputL[i])
 
     comment = input("Enter your comment: ")
-    len += 1
+    password = input("Enter your password: ")
+    if passwordHash == create_hash(password):
+        inputL.append(comment)
+        len += 1
+        continue
+    else:
+        falsePass = True
+        print("I am sorry i can't let you do this")
 
 
