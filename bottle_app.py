@@ -6,8 +6,9 @@
 #####################################################################
 
 from bottle import route, run, default_app, debug
+from bottle import static_file, route
 
-def htmlify(title,text):
+def htmlify(title, text):
     page = """
         <!doctype html>
         <html lang="en">
@@ -25,8 +26,12 @@ def htmlify(title,text):
 
 def index():
     return htmlify("My lovely website",
-                   "This is going to be an awesome website, when it is finished.")
+                  "This is going to be an awesome website, when it is finished.")
 
+def static_file_callback(filename):
+    return static_file(filename, root='static')
+
+route('/static/<filename>', 'GET', static_file_callback)
 route('/', 'GET', index)
 
 #####################################################################
