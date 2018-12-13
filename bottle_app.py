@@ -29,11 +29,10 @@ def index():
                   "This is going to be an awesome website, when it is finished.")
 
 def static_file_callback(filename):
-    return static_file(filename, root='static')
+    return static_file(filename, root='./static')
 
-route('/static/<filename>', 'GET', static_file_callback)
 route('/', 'GET', index)
-
+route('/static/<filename>', 'GET', static_file_callback)
 #####################################################################
 ### Don't alter the below code.
 ### It allows this website to be hosted on Heroku
