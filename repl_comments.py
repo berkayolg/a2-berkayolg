@@ -4,6 +4,11 @@ def create_hash(password):                      #Taken from https://bitbucket.or
     pw_bytestring = password.encode()
     return sha256(pw_bytestring).hexdigest()
 
+def take_comment():
+    comment = input("Enter your comment: ")
+    password = input("Enter your password: ")
+    return password
+
 inputL = list()
 comment = ""
 len = 0
@@ -16,8 +21,7 @@ while comment != "quit":
     for i in range(1, len+1):
         print(i, ". ", inputL[i])
 
-    comment = input("Enter your comment: ")
-    password = input("Enter your password: ")
+    password = take_comment()
     if passwordHash == create_hash(password):
         inputL.append(comment)
         len += 1
