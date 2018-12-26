@@ -14,16 +14,19 @@ def index():
     return htmlify("My lovely website",
                    "This is going to be an awesome website, when it is finished.")
 
-@route('static/<filename>')
+@route('/static/<filename>')
 def static_file_callback(filename):
     return static_file(filename, root='./static')
 
 comment_form = '''<form action = "/static/soundtracks.html" method = "post">
 	<fieldset>
 	<legend>Comment Section:</legend>
-	<legend>Comment:</legend>
+	Comment:<br>
 	<textarea name="comment" rows="10" cols="60">Please be nice on your comments</textarea>
-	<legend>Password:</legend>
+	<br>Is it a good comment?<br>
+	Yes<input type="checkbox" name="comment_type" value="yes" checked>
+	No<input type="checkbox" name="comment_type" value="no"> 
+	<br>Password:<br>
 	<input type = "password" name = "password" ><br>
 	<input type = "submit">
 	</fieldset>
@@ -89,8 +92,11 @@ def comment_section():
 			width: 100%;
 			display: table;
 			}
+			form {
+				color:white;
+			}
 			legend {
-			color:white;
+				color:white;
 			}
 			p{
 				color:white;
@@ -148,6 +154,8 @@ def comment_section():
 
 @route('/static/soundtracks.html', method='POST')
 def post_comment():
+	global ty_message
+	comment_type = request.POST['comment_type']
 	page = '''<!DOCTYPE html>
 	<html lang="en">
 	<head>
@@ -203,6 +211,9 @@ def post_comment():
 			width: 100%;
 			display: table;
 			}
+			form{
+				color:white;
+			}
 			legend {
 			color:white;
 			}
@@ -244,8 +255,10 @@ def post_comment():
 		<class = "comments">
 			''' + comment_form
 	if request.POST and (create_hash(request.POST['password'])) == password:
-		print(5)
 		previous_comments.append(request.POST['comment'])
+		if comment_type:
+			if comment_type == 'yes':
+				ty_message = True
 	page_end = '''<details>
 			</class>
 			<summary>Lists are taken from</summary>
@@ -260,6 +273,8 @@ def post_comment():
 	for comment in previous_comments:
 			page += "<p>%d. %s<br><p>" % (i, comment)
 			i+=1
+	if comment_type == "yes":
+		page += "<p>Thank you for your comment<p>"
 	page += page_end
 	return page
 
