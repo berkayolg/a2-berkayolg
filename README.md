@@ -1,3 +1,3 @@
 Link to my website:
-https://a2-berkayolg.herokuapp.com/static/index.html
+https://a2-berkayolg.herokuapp.com/static/index.html \n
 Password is: GoodPass
